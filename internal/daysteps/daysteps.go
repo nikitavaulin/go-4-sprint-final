@@ -1,3 +1,6 @@
+// daysteps отвечает за учёт активности в течение дня.
+// Он собирает переданную информацию в виде строк,
+// парсит их и выводит информацию о количестве шагов, пройденной дистанции и потраченных калориях.
 package daysteps
 
 import (
@@ -17,6 +20,8 @@ const (
 	mInKm = 1000
 )
 
+// parsePackage принимает строку с данными,
+// возращает количество шагов и время прогулки
 func parsePackage(data string) (int, time.Duration, error) {
 	splitData := strings.Split(data, ",")
 	if parsedCount := len(splitData); parsedCount != 2 {
@@ -44,6 +49,9 @@ func parsePackage(data string) (int, time.Duration, error) {
 	return stepsCount, walkTime, nil
 }
 
+// DayActionInfo парсит строку с данными,
+// вычисляет дистанцию в километрах и количество потраченных калорий
+// и возвращает строку с инофрмацией
 func DayActionInfo(data string, weight, height float64) string {
 	stepsCount, walkTime, err := parsePackage(data)
 	if err != nil {
@@ -66,6 +74,7 @@ func DayActionInfo(data string, weight, height float64) string {
 	return dayActionInfoText(stepsCount, distance, spentCalories)
 }
 
+// dayActionInfoText возвращает текст вывода информации для пользователя
 func dayActionInfoText(stepsCount int, distance, spentCalories float64) string {
 	output := fmt.Sprintf(
 		"Количество шагов: %d.\nДистанция составила %.2f км.\nВы сожгли %.2f ккал.\n",
